@@ -1,5 +1,5 @@
 class SprocketsController < ActionController::Base
-  caches_page :show
+  caches_page :show, :if => Proc.new { SprocketsApplication.use_page_caching }
   
   def index
     show
