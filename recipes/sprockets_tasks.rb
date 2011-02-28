@@ -1,7 +1,7 @@
 def run_sprockets_rake_task(task)
   rake = fetch(:rake, 'rake')
   rails_env = fetch(:rails_env, 'production')
-  run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} sprockets:#{task}"
+  run "cd #{current_release}; #{rake} Rails.env=#{rails_env} sprockets:#{task}"
 end
 
 namespace :sprockets do
