@@ -1,6 +1,6 @@
 module SprocketsApplication
   mattr_accessor :use_page_caching
-  self.use_page_caching = true
+  self.use_page_caching = false
 
   class << self
     def routes(map)
@@ -8,7 +8,7 @@ module SprocketsApplication
     end
 
     def source(group = nil)
-      @group = group
+      @group = group || "default"
       concatenation.to_s
     end
 
@@ -21,8 +21,13 @@ module SprocketsApplication
     end
 
     protected
+    
+      def secretaries
+        @secretaries ||= {}
+      end
+      
       def secretary
-        @secretary ||= Sprockets::Secretary.new(configuration[(@group || :default)].merge(:root => ::Rails.root.to_s))
+        secretaries[@group] ||= Sprockets::Secretary.new(configuration[@group].symbolize_keys.merge(:root => ::Rails.root.to_s))
       end
 
       def configuration
