@@ -9,7 +9,7 @@ module SprocketsApplication
 
     def source(group = nil)
       @group = group || "default"
-      concatenation.to_s
+      concatenation.to_s rescue ""
     end
 
     def install_script
@@ -27,7 +27,7 @@ module SprocketsApplication
       end
       
       def secretary
-        secretaries[@group] ||= Sprockets::Secretary.new(configuration[@group].symbolize_keys.merge(:root => ::Rails.root.to_s))
+        secretaries[@group] ||= (Sprockets::Secretary.new(configuration[@group].symbolize_keys.merge(:root => ::Rails.root.to_s)) rescue nil)
       end
 
       def configuration
